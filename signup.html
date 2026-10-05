@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Registration · T&P Portal</title><link rel="stylesheet" href="assets/style.css"></head>
+<body class="signup-body">
+<div class="topline"></div>
+<header class="site-nav signup-nav"><nav><div class="brand"><div class="brandmark">T&P</div><div><b>T&P Portal</b><small>Training & Placement Office</small></div></div><a class="back-link top-back" href="index.html">← Return to portal</a></nav></header>
+<main class="registration-shell">
+  <section class="registration-intro">
+    <div class="registration-badge">OFFICIAL REGISTRATION</div>
+    <h1>Join the Training & Placement Portal</h1>
+    <p>Create your official portal account and complete your profile. New registrations are placed in a <b>Pending Approval</b> queue until reviewed by the TPO or Administrator.</p>
+    <div class="registration-points">
+      <div><span>01</span><div><b>Register</b><small>Enter accurate profile or company information.</small></div></div>
+      <div><span>02</span><div><b>Verification</b><small>TPO/Admin checks the registration.</small></div></div>
+      <div><span>03</span><div><b>Access</b><small>Use the portal after approval.</small></div></div>
+    </div>
+    <div class="registration-contact"><b>Need help?</b><span>Contact the Training & Placement Office after submitting your registration.</span></div>
+  </section>
+  <section class="signup-card registration-card">
+    <div class="registration-card-head"><div><div class="eyebrow">STEP 1 OF 2</div><h2 id="signupTitle">Create your Student profile</h2><p id="signupIntro" class="muted">Register your details first. Your account will remain pending until the TPO or Administrator approves it.</p></div><div class="registration-status"><span class="status-dot"></span> Approval required</div></div>
+    <div class="role-switch role-switch-large"><a id="studentMode" href="signup.html?role=student">Student</a><a id="companyMode" href="signup.html?role=company">Company</a></div>
+    <form id="signupForm">
+      <div class="form-section-title"><span>01</span><div><b>Account details</b><small>Use an email address you can access.</small></div></div>
+      <div class="formgrid registration-grid">
+        <div class="wide"><label id="nameLabel">Full name</label><input id="fullName" required placeholder="Your full name"></div>
+        <div><label>Email address</label><input id="email" type="email" required placeholder="name@example.com"></div>
+        <div><label>Phone number</label><input id="phone" placeholder="10-digit phone number"></div>
+        <div><label>Password</label><input id="password" type="password" required minlength="8" placeholder="Minimum 8 characters"></div>
+        <div><label>Confirm password</label><input id="confirmPassword" type="password" required minlength="8" placeholder="Re-enter password"></div>
+      </div>
+      <div class="form-section-title"><span>02</span><div><b id="profileSectionTitle">Student information</b><small id="profileSectionNote">Complete the information that will be used by the T&P Office.</small></div></div>
+      <div class="formgrid registration-grid">
+        <div><label id="departmentLabel">Department / Branch</label><input id="department" placeholder="CSE / IT / ECE"></div>
+        <div id="rollWrap"><label>Roll number</label><input id="rollNo" placeholder="College roll number"></div>
+        <div id="cgpaWrap"><label>CGPA</label><input id="cgpa" type="number" min="0" max="10" step="0.01" placeholder="0.00"></div>
+        <div id="qualificationWrap"><label>Qualification</label><input id="qualification" placeholder="Diploma / B.Tech / MBA"></div>
+        <div id="locationWrap"><label>Preferred job location</label><input id="preferredLocation" placeholder="Agartala / Guwahati / Bengaluru"></div>
+        <div id="companyContactField" class="hide"><label>Contact person</label><input id="contactName" placeholder="Recruitment contact"></div>
+        <div id="companyWebsiteField" class="hide"><label>Company website</label><input id="website" placeholder="https://example.com"></div>
+        <div id="skillsWrap" class="wide"><label>Technical skills</label><input id="skills" placeholder="Java, Python, MySQL, HTML, CSS"></div>
+        <div id="certsWrap" class="wide"><label>Certifications</label><input id="certifications" placeholder="AWS, NPTEL, Coursera..."></div>
+        <div id="projectsWrap" class="wide"><label>Projects</label><textarea id="projects" placeholder="One project per line"></textarea></div>
+        <div id="experienceWrap" class="wide"><label>Internship / experience</label><textarea id="experience" placeholder="Internship, work experience or other relevant experience"></textarea></div>
+      </div>
+      <div class="registration-review-box"><div><b>Approval workflow</b><p>You can submit now even if some optional profile information is not yet complete. Required account details must be accurate.</p></div><span>Pending → TPO/Admin Review → Approved</span></div>
+      <label class="consent"><input type="checkbox" id="terms" required> I confirm that the information provided is correct and agree that the T&P Office may verify it.</label>
+      <button id="signupBtn" class="primary registration-submit" type="submit">Submit registration</button><p id="signupMsg" class="msg"></p>
+    </form>
+    <div class="signup-foot">Already registered? <a id="loginLink" href="login.html?role=student">Sign in</a></div>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js"></script><script src="js/signup.js"></script>
+</body></html>
