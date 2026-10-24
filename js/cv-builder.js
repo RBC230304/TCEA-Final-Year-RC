@@ -1,0 +1,19 @@
+const CV_BUILDER_SECTIONS=['profile','education','skills','certs','projects','experience','location','job'];
+function cvBuilderConfig(prefix='cvb'){
+ const title=document.getElementById(prefix+'Title')?.value||'Curriculum Vitae';
+ const style=document.getElementById(prefix+'Style')?.value||'professional';
+ const sections=CV_BUILDER_SECTIONS.filter(x=>document.getElementById(prefix==='cvb'?'sec'+x.charAt(0).toUpperCase()+x.slice(1):'tpoSec'+x.charAt(0).toUpperCase()+x.slice(1))?.checked);
+ return {version:1,title,style,sections,required_fields:(typeof collectCVFieldBuilder==='function'?collectCVFieldBuilder(prefix):[])};
+}
+function renderCVBuilderPreview(prefix='cvb',targetId='companyCVPreview'){
+ const t=document.getElementById(targetId); if(!t)return; const c=cvBuilderConfig(prefix); const labels={profile:'Profile',education:'Education',skills:'Technical Skills',certs:'Certifications',projects:'Projects',experience:'Internship / Experience',location:'Preferred Location',job:'Job Details'};
+ t.innerHTML=`<h4>${esc(c.title)}</h4><div style="color:#64748b;margin-bottom:10px">{{FULL_NAME}} · {{EMAIL}} · {{PHONE}}</div>`+c.sections.map(s=>`<div class="preview-section"><b>${labels[s]}</b><span>{{${s.toUpperCase()}}}</span></div>`).join('');
+}
+function toggleCompanyCVBuilder(){const type=document.getElementById('jTemplateType')?.value;document.getElementById('companyCVBuilder')?.classList.toggle('hide',type==='pdf');document.getElementById('companyPdfBuilder')?.classList.toggle('hide',type!=='pdf');if(type!=='pdf')renderCVBuilderPreview();}
+document.addEventListener('DOMContentLoaded',()=>{renderCVBuilderPreview();if(typeof renderCVFieldBuilder==='function')renderCVFieldBuilder('company');document.querySelectorAll('#companyCVBuilder input,#companyCVBuilder select').forEach(e=>e.addEventListener('input',()=>renderCVBuilderPreview()));});
+function readSavedCVTemplate(job){try{return job?.cv_template?JSON.parse(job.cv_template):null}catch{return null}}
+function tpoOpenCVBuilder(jobId){window.tpoEditingJobId=jobId;const box=document.getElementById('tpoCVBuilderBox');if(!box)return;box.classList.remove('hide');box.scrollIntoView({behavior:'smooth',block:'center'});sb.from('jobs').select('*').eq('id',jobId).single().then(({data})=>{const c=readSavedCVTemplate(data)||{title:'Curriculum Vitae',style:data?.cv_template_type?.replace('web-','')||'professional',sections:CV_BUILDER_SECTIONS,required_fields:data?.cv_required_fields||[]};document.getElementById('tpoCvbTitle').value=c.title;document.getElementById('tpoCvbStyle').value=c.style==='modern'?'modern':c.style==='minimal'?'minimal':'professional';CV_BUILDER_SECTIONS.forEach(x=>{const el=document.getElementById('tpoSec'+x.charAt(0).toUpperCase()+x.slice(1));if(el)el.checked=c.sections?.includes(x)!==false});renderCVBuilderPreview('tpoCvb','tpoCVPreview');if(typeof renderCVFieldBuilder==='function')renderCVFieldBuilder('tpo',data?.cv_required_fields||c.required_fields||[]);});}
+function closeTpoCVBuilder(){document.getElementById('tpoCVBuilderBox')?.classList.add('hide');window.tpoEditingJobId=null;}
+async function saveTpoWebTemplate(){if(!window.tpoEditingJobId)return;const c=cvBuilderConfig('tpoCvb');const fields=typeof collectCVFieldBuilder==='function'?collectCVFieldBuilder('tpo'):[];c.required_fields=fields;const {error}=await sb.from('jobs').update({cv_template_type:'web-'+c.style,cv_template:JSON.stringify(c),cv_required_fields:fields,cv_template_url:null,cv_template_name:'Website CV Template'}).eq('id',window.tpoEditingJobId);if(error)alert(error.message);else{alert('Website CV format saved for this job.');closeTpoCVBuilder();if(typeof loadDrives==='function')loadDrives();}}
+
+document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('#tpoCVBuilderBox'))renderCVBuilderPreview('tpoCvb','tpoCVPreview');});
